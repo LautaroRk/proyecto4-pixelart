@@ -90,7 +90,27 @@ input[type="color"]::-webkit-color-swatch {
   outline: 1px solid white;
 }
 
-.custom {
+.funciones-especiales {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+.funciones-especiales img {
+  width: 35px;
+}
+
+.cursor-balde {
+  cursor: url(../img/cursor-balde.png), auto;
+}
+.cursor-borrar {
+  cursor: url(../img/cursor-borrar.png), auto;
+}
+.cursor-gotero {
+  cursor: url(../img/cursor-gotero.png), auto;
+}
+
+.instruccion {
+  text-align: center;
+  font-size: 0.5em;
   color: white;
 }
 
@@ -158,9 +178,6 @@ img {
   height: 29px;
   width: 29px;
   background: url(../img/empty.gif);
-}
-#indicador-de-color-mensaje {
-  color: white;
 }
 
 #result {

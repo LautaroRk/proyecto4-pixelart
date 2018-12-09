@@ -1,12 +1,11 @@
 //Dudas: 
 // -En qué tipo de variables conviene agregar el signo $ antes del nombre?
+// -Intenté guardar el estado vacio del selector de color en una variable (booleano)
+// para achicar el codigo y se empezo a comportar todo raro
 
-//Funcionalidades a aplicar:
-// -Gotero
-// -Balde
-// -Borrar
-// -Grosor de pincel (convertir grilla en matriz)
-// -Cargar y pixelizar imagen 
+//Funcionalidades a aplicar??
+// ?? Grosor de pincel (convertir grilla en matriz)
+// ?? Cargar y pixelizar imagen 
 
 $(document).ready(function(){
   // Generamos la paleta de colores
@@ -64,12 +63,17 @@ $(document).ready(function(){
   generarGrilla();
   
   var $pixeles = $grilla.children();
+  // var selectorVacio = $colorSeleccionado.css('background-color') == 'rgba(0, 0, 0, 0)';
 
   // Event listener para pintar un pixel de la grilla con el color seleccionado
   $pixeles.click(function(){
     // Chequeo que el indicador de color no este vacío
     if($colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)') {
-      cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
+      if(!gomaActiva && !goteroActivo) {
+        cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
+      }else if (gomaActiva){
+        cambiarColorFondo($(this), 'white');
+      }
     }
   });
 
@@ -83,7 +87,11 @@ $(document).ready(function(){
     });
     $pixeles.hover(function(){
       if(mouseApretado && $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)'){
-        cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
+        if(!gomaActiva && !baldeActivo) {
+          cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
+        }else if(gomaActiva){
+          cambiarColorFondo($(this), 'white');
+        }
       }
     });
   });
@@ -111,5 +119,58 @@ $(document).ready(function(){
 
   // Botón 'Guardar'
   $('#guardar').click(guardarPixelArt);
+
+  // Borrar
+  var gomaActiva = false;
+  $('#goma-borrar').click(function(){
+    if(!baldeActivo && !goteroActivo) {
+      gomaActiva = !gomaActiva;
+      $('body').toggleClass('cursor-borrar');
+      $grilla.toggleClass('cursor-personalizado');
+      $pixeles.click(function(){
+        if(gomaActiva && $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)') {
+          cambiarColorFondo($(this), 'white');
+        }
+      });
+    }
+  });
+
+  // Balde
+  var baldeActivo = false;
+  $('#balde').click(function(){
+    if(!gomaActiva && !goteroActivo) {
+      baldeActivo = !baldeActivo;
+      $('body').toggleClass('cursor-balde');
+      $grilla.toggleClass('cursor-personalizado');
+      $grilla.click(function(){
+        if($colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)'){
+          if(baldeActivo){
+            cambiarColorFondo($pixeles,$colorSeleccionado.css('background-color'));
+            baldeActivo = false;
+            $('body').toggleClass('cursor-balde');
+            $grilla.toggleClass('cursor-personalizado');
+          }
+        }
+      });
+    }
+  });
+
+  // Gotero
+  var goteroActivo = false;
+  $('#gotero').click(function(){
+    if(!gomaActiva && !baldeActivo) {
+      goteroActivo = !goteroActivo;
+      $('body').toggleClass('cursor-gotero');
+      $grilla.toggleClass('cursor-personalizado');
+      $pixeles.click(function(){
+        if(goteroActivo){
+          cambiarColorFondo($colorSeleccionado,$(this).css('background-color'));
+          goteroActivo = false;
+          $('body').toggleClass('cursor-gotero');
+          $grilla.toggleClass('cursor-personalizado');
+        }
+      });
+    }
+  });
 });
 
