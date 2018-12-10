@@ -120,13 +120,18 @@ $(document).ready(function(){
   // Botón 'Guardar'
   $('#guardar').click(guardarPixelArt);
 
-  // Borrar
+  // Función para cambiar de cursor
+  function cambiarCursor(claseCursor) {
+    $('body').toggleClass(claseCursor);
+    $grilla.toggleClass('cursor-personalizado');
+  }
+
+  // Herramienta 'Borrar'
   var gomaActiva = false;
   $('#goma-borrar').click(function(){
     if(!baldeActivo && !goteroActivo) {
       gomaActiva = !gomaActiva;
-      $('body').toggleClass('cursor-borrar');
-      $grilla.toggleClass('cursor-personalizado');
+      cambiarCursor('cursor-borrar');
       $pixeles.click(function(){
         if(gomaActiva && $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)') {
           cambiarColorFondo($(this), 'white');
@@ -140,15 +145,13 @@ $(document).ready(function(){
   $('#balde').click(function(){
     if(!gomaActiva && !goteroActivo) {
       baldeActivo = !baldeActivo;
-      $('body').toggleClass('cursor-balde');
-      $grilla.toggleClass('cursor-personalizado');
+      cambiarCursor('cursor-balde');
       $grilla.click(function(){
         if($colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)'){
           if(baldeActivo){
-            cambiarColorFondo($pixeles,$colorSeleccionado.css('background-color'));
             baldeActivo = false;
-            $('body').toggleClass('cursor-balde');
-            $grilla.toggleClass('cursor-personalizado');
+            cambiarColorFondo($pixeles,$colorSeleccionado.css('background-color'));
+            cambiarCursor('cursor-balde');
           }
         }
       });
@@ -160,14 +163,12 @@ $(document).ready(function(){
   $('#gotero').click(function(){
     if(!gomaActiva && !baldeActivo) {
       goteroActivo = !goteroActivo;
-      $('body').toggleClass('cursor-gotero');
-      $grilla.toggleClass('cursor-personalizado');
+      cambiarCursor('cursor-gotero');
       $pixeles.click(function(){
         if(goteroActivo){
-          cambiarColorFondo($colorSeleccionado,$(this).css('background-color'));
           goteroActivo = false;
-          $('body').toggleClass('cursor-gotero');
-          $grilla.toggleClass('cursor-personalizado');
+          cambiarColorFondo($colorSeleccionado,$(this).css('background-color'));
+          cambiarCursor('cursor-gotero');
         }
       });
     }
