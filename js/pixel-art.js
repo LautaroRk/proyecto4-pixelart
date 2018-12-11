@@ -1,4 +1,4 @@
-//Funcionalidades a aplicar a futuro?:
+//Funciones a aplicar a futuro?:
 // ?? Grosor de pincel (convertir grilla en matriz)
 // ??? Cargar cualquier imagen y pixelizarla
 
@@ -58,13 +58,14 @@ $(document).ready(function(){
   generarGrilla();
   
   var $pixeles = $grilla.children();
+
+  // Función para chequear que el indicador de color no este vacío
   function selectorNoVacio() {
     return $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)';
   }
 
   // Event listener para pintar un pixel de la grilla con el color seleccionado
   $pixeles.click(function(){
-    // Chequeo que el indicador de color no este vacío
     if(selectorNoVacio()) {
       if(!gomaActiva && !goteroActivo && !baldeActivo) {
         cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
@@ -84,7 +85,7 @@ $(document).ready(function(){
     });
     $pixeles.hover(function(){
       if(mouseApretado && selectorNoVacio()){
-        if(!gomaActiva && !baldeActivo) {
+        if(!gomaActiva && !baldeActivo && !goteroActivo) {
           cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
         }else if(gomaActiva){
           cambiarColorFondo($(this), 'white');
@@ -116,6 +117,11 @@ $(document).ready(function(){
 
   // Botón 'Guardar'
   $('#guardar').click(guardarPixelArt);
+
+
+
+  //Funciones especiales:
+  //--------------------
 
   // Función para cambiar de cursor
   function cambiarCursor(claseCursor) {
@@ -171,13 +177,13 @@ $(document).ready(function(){
     }
   });
 
-  // Herramienta "Reemplazar": 
+  // Herramienta 'Reemplazar color': 
   // Reemplaza todos los pixeles del color seleccionado por el color personalizado
   $('#reemplazar').click(function(){
     if(selectorNoVacio()){
       $pixeles.filter(function(){
         if ($(this).css('background-color') === $colorSeleccionado.css('background-color')) {
-          $(this).css('background-color',$colorPersonalizado.val());
+          $(this).animate({'background-color' : $colorPersonalizado.val()}, 1000);
         }
       });
     }
