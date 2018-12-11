@@ -1,11 +1,6 @@
-//Dudas: 
-// -En qué tipo de variables conviene agregar el signo $ antes del nombre?
-// -Intenté guardar el estado vacio del selector de color en una variable (booleano)
-// para achicar el codigo y se empezo a comportar todo raro
-
-//Funcionalidades a aplicar??
+//Funcionalidades a aplicar a futuro?:
 // ?? Grosor de pincel (convertir grilla en matriz)
-// ?? Cargar y pixelizar imagen 
+// ??? Cargar cualquier imagen y pixelizarla
 
 $(document).ready(function(){
   // Generamos la paleta de colores
@@ -56,20 +51,22 @@ $(document).ready(function(){
   
   function generarGrilla () {
     for (var i=0; i < 1750; i++) {
-      var $pixel = $('<div>');
+      var $pixel = $('<div>',{'class':'pixel'});
       $grilla.append($pixel);
     }
   }
   generarGrilla();
   
   var $pixeles = $grilla.children();
-  // var selectorVacio = $colorSeleccionado.css('background-color') == 'rgba(0, 0, 0, 0)';
+  function selectorNoVacio() {
+    return $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)';
+  }
 
   // Event listener para pintar un pixel de la grilla con el color seleccionado
   $pixeles.click(function(){
     // Chequeo que el indicador de color no este vacío
-    if($colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)') {
-      if(!gomaActiva && !goteroActivo) {
+    if(selectorNoVacio()) {
+      if(!gomaActiva && !goteroActivo && !baldeActivo) {
         cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
       }else if (gomaActiva){
         cambiarColorFondo($(this), 'white');
@@ -86,7 +83,7 @@ $(document).ready(function(){
       mouseApretado = false;
     });
     $pixeles.hover(function(){
-      if(mouseApretado && $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)'){
+      if(mouseApretado && selectorNoVacio()){
         if(!gomaActiva && !baldeActivo) {
           cambiarColorFondo($(this), $colorSeleccionado.css('background-color'));
         }else if(gomaActiva){
@@ -126,28 +123,28 @@ $(document).ready(function(){
     $grilla.toggleClass('cursor-personalizado');
   }
 
-  // Herramienta 'Borrar'
+  // Herramienta goma 'Borrar'
   var gomaActiva = false;
   $('#goma-borrar').click(function(){
     if(!baldeActivo && !goteroActivo) {
       gomaActiva = !gomaActiva;
       cambiarCursor('cursor-borrar');
       $pixeles.click(function(){
-        if(gomaActiva && $colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)') {
+        if(gomaActiva && selectorNoVacio()) {
           cambiarColorFondo($(this), 'white');
         }
       });
     }
   });
 
-  // Balde
+  // Herramienta 'Balde'
   var baldeActivo = false;
   $('#balde').click(function(){
     if(!gomaActiva && !goteroActivo) {
       baldeActivo = !baldeActivo;
       cambiarCursor('cursor-balde');
       $grilla.click(function(){
-        if($colorSeleccionado.css('background-color') !== 'rgba(0, 0, 0, 0)'){
+        if(selectorNoVacio()){
           if(baldeActivo){
             baldeActivo = false;
             cambiarColorFondo($pixeles,$colorSeleccionado.css('background-color'));
@@ -158,7 +155,7 @@ $(document).ready(function(){
     }
   });
 
-  // Gotero
+  // Herramienta 'Gotero'
   var goteroActivo = false;
   $('#gotero').click(function(){
     if(!gomaActiva && !baldeActivo) {
@@ -169,6 +166,18 @@ $(document).ready(function(){
           goteroActivo = false;
           cambiarColorFondo($colorSeleccionado,$(this).css('background-color'));
           cambiarCursor('cursor-gotero');
+        }
+      });
+    }
+  });
+
+  // Herramienta "Reemplazar": 
+  // Reemplaza todos los pixeles del color seleccionado por el color personalizado
+  $('#reemplazar').click(function(){
+    if(selectorNoVacio()){
+      $pixeles.filter(function(){
+        if ($(this).css('background-color') === $colorSeleccionado.css('background-color')) {
+          $(this).css('background-color',$colorPersonalizado.val());
         }
       });
     }

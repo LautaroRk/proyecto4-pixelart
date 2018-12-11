@@ -31,19 +31,20 @@
         </section>
         <ul class="input-color">
           <li class="funciones-especiales">
-            <img id="goma-borrar" src="img/borrar.png" alt="Borrar">
-            <img id="balde" src="img/balde.png" alt="Balde">
-            <img id="gotero" src="img/gotero.png" alt="Gotero">
+            <img id="goma-borrar" src="img/borrar.png" alt="Borrar" title="Borrar píxel por píxel. Depositar la herramienta nuevamente en su lugar para cancelar la acción.">
+            <img id="balde" src="img/balde.png" alt="Balde" title="Pintar todo el lienzo del color seleccionado. Depositar la herramienta nuevamente en su lugar para cancelar la acción.">
+            <img id="gotero" src="img/gotero.png" alt="Gotero" title="Tomar el color de un píxel del lienzo. Depositar la herramienta nuevamente en su lugar para cancelar la acción.">
+            <img id="reemplazar" src="img/reemplazar.png" alt="Reemplazar color" title="Reemplazar el color seleccionado por el color personalizado. Primero elegir el color personalizado en la rueda de colores y luego el color a reemplazar usando el gotero antes de usar la herramienta Reemplazar.">
           </li>
           <li>
             <p class="instruccion">Para dejar una herramienta volvé a clickear en el ícono correspondiente</p>
           </li>
           <li>
-            <span id="indicador-de-color" class="cursor-personalizado"></span>
+            <span id="indicador-de-color" class="cursor-personalizado" title="Color seleccionado."></span>
             <p class="instruccion">Pincel</p>
           </li>
           <li>
-            <input id="color-personalizado" class="input-color" type="color" name="name" value="#ffffff">
+            <input id="color-personalizado" class="input-color" type="color" name="name" value="#ffffff" title="Color personalizado.">
             <p class="instruccion input-color">rueda de colores</p>
           </li>
         </ul>
